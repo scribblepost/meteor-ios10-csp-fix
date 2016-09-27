@@ -21,7 +21,7 @@ module.exports = function(context) {
   var data = fs.readFileSync(indexHTMLPath, {'encoding': 'utf8'});
 
   var oldMetaRegexp = new RegExp(oldMetaPattern, 'i');
-  var newmeta = `<meta http-equiv="Content-Security-Policy" content="default-src * data: blob: 'unsafe-inline' 'unsafe-eval' ws: wss:;">`;
+  var newmeta = '<meta http-equiv="Content-Security-Policy" content="default-src * data: blob: \'unsafe-inline\' \'unsafe-eval\' ws: wss:;">';
 
   if (oldMetaRegexp.test(data)) {
     var newdata = data.replace(oldMetaRegexp, newmeta);
@@ -45,7 +45,7 @@ module.exports = function(context) {
     var headregexp = new RegExp(headpattern, 'i');
     if (headregexp.test(data)) {
       // replace <head> with <head>\n<meta....>
-      var newdata = data.replace(headregexp, `${headpattern}\n${newmeta}`);
+      var newdata = data.replace(headregexp, headpattern+'\n'+newmeta);
       
       fs.writeFileSync(indexHTMLPath, newdata);
     } 
